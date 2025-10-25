@@ -27,3 +27,7 @@ dist-ssr
 
 # Capacitor
 ios
+ios_backup
+
+# Test files
+useTestNotifications.ts

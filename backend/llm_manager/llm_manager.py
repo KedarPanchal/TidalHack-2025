@@ -102,3 +102,11 @@ class LLMManager:
         self._save_history()
 
         return response.content
+
+    def chat_rag(self, user_message: str, context: str) -> str:
+        """
+        Chat with RAG (Retrieval-Augmented Generation) support.
+        Includes the provided context in the user message.
+        """
+        augmented_message = f"Context: {context}\n\nQuestion: {user_message}"
+        return self.chat(augmented_message)

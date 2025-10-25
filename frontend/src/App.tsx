@@ -1,37 +1,36 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import BottomNav from './components/BottomNav'
+import Summary from './pages/Summary'
+import CheckIn from './pages/CheckIn'
+import UrgeManager from './pages/UrgeManager'
+import Settings from './pages/Settings'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [activeTab, setActiveTab] = useState('summary')
+
+  const renderPage = () => {
+    switch (activeTab) {
+      case 'summary':
+        return <Summary />
+      case 'checkin':
+        return <CheckIn />
+      case 'urge':
+        return <UrgeManager />
+      case 'settings':
+        return <Settings />
+      default:
+        return <Summary />
+    }
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <header>
-        Chadcn implemented goon!
-      </header>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="flex flex-col h-screen bg-background">
+      <main className="flex-1 overflow-y-auto pb-16">
+        {renderPage()}
+      </main>
+      <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />
+    </div>
   )
 }
 

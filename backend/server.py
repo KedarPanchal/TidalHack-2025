@@ -48,7 +48,7 @@ def process_output(output: str):
 
 @app.get("/")
 def root():
-    return ModelResponse(response="Server is running.")
+    return ModelResponse(response="Server is running.", relapsed=False)
 
 @app.post("/api/v1/chat/{persona}")
 def chat(persona: str, prompt: PromptInput, llm: LLMManager = Depends(get_llm_manager)):

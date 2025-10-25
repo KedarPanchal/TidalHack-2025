@@ -25,6 +25,4 @@ dist-ssr
 .vite/
 
 # Capacitor
-ios/App/Pods
-ios/App/build
-ios/App/Podfile.lock
+ios

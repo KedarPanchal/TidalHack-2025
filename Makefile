@@ -1,4 +1,4 @@
-.PHONY: build run all
+.PHONY: build run all clean stop
 
 make build:
 	docker build -t tidalhack-backend ./backend

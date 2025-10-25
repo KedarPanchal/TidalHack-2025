@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 type Theme = 'light' | 'dark'
 type FontSize = 'small' | 'medium' | 'large'
 

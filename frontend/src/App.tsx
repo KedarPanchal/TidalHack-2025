@@ -4,6 +4,7 @@ import Summary from './pages/Summary'
 import CheckIn from './pages/CheckIn'
 import UrgeManager from './pages/UrgeManager'
 import Settings from './pages/Settings'
+import { useNotifications } from './hooks/useNotifications'
 import './App.css'
 
 type Theme = 'light' | 'dark'
@@ -13,6 +14,9 @@ function App() {
   const [activeTab, setActiveTab] = useState('summary')
   const [theme, setTheme] = useState<Theme>('light')
   const [fontSize, setFontSize] = useState<FontSize>('medium')
+
+  // Initialize push notifications
+  useNotifications()
 
   // Load theme and fontSize from localStorage on mount
   useEffect(() => {

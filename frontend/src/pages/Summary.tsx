@@ -51,70 +51,87 @@ export default function Summary() {
     return Math.min(value / max, 1);
   };
 
-  // Get color for days circle (rotates through colors)
-  const getDaysColor = (days: number) => {
-    const colors = [
-      '#3B82F6', // blue
-      '#10B981', // emerald
-      '#F59E0B', // amber
-      '#EF4444', // red
-      '#8B5CF6', // violet
-      '#EC4899', // pink
-      '#06B6D4', // cyan
-      '#84CC16', // lime
-    ];
-    return colors[days % colors.length];
+  // Cool/calm color palette (all different from each other)
+  const coolColors = [
+    '#A7C4A0', // sage green
+    '#90AFC5', // powder blue
+    '#B8C5DB', // lavender blue
+    '#BBD2C5', // mint green
+    '#A8C8EC', // sky blue
+    '#C7D9D0', // dusty mint
+    '#9CB4B8', // blue-grey
+    '#B3A9C0', // dusty purple
+    '#A5C5B7', // sea green
+    '#C4B5CA', // soft purple
+  ];
+
+  // Days: complete every 30 days, accumulate filled circles
+  const getDaysCircleData = (days: number) => {
+    const completedCycles = Math.floor(days / 30);
+    const currentProgress = (days % 30) / 30;
+    
+    return {
+      completedCycles,
+      currentProgress,
+      colors: coolColors,
+    };
   };
 
-  // Get previous color for days circle
-  const getPreviousDaysColor = (days: number) => {
-    const colors = [
-      '#3B82F6', // blue
-      '#10B981', // emerald
-      '#F59E0B', // amber
-      '#EF4444', // red
-      '#8B5CF6', // violet
-      '#EC4899', // pink
-      '#06B6D4', // cyan
-      '#84CC16', // lime
-    ];
-    return colors[(days - 1 + colors.length) % colors.length];
-  };
-
+  const daysData = getDaysCircleData(sobrietyTime.days);
   const secondsProgress = getCircleProgress(sobrietyTime.seconds, 60);
   const minutesProgress = getCircleProgress(sobrietyTime.minutes, 60);
   const hoursProgress = getCircleProgress(sobrietyTime.hours, 24);
-  const daysProgress = getCircleProgress(sobrietyTime.days, 1); // Days don't reset, so always 1
 
   return (
     <div className="flex flex-col items-center justify-center h-full p-6">
       <h1 className="text-3xl font-bold mb-8">You've been sober for...</h1>
       
       <div className="relative w-80 h-80 mb-8">
-        {/* Days Circle (outermost) */}
+        {/* Days Circle (outermost) - with multiple filled layers */}
         <svg className="absolute inset-0 w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+          {/* Background circle */}
           <circle
             cx="50"
             cy="50"
             r="45"
             fill="none"
-            stroke={getPreviousDaysColor(sobrietyTime.days)}
+            stroke="#E5E7EB"
             strokeWidth="8"
-            className="opacity-30"
+            className="opacity-50"
             strokeLinecap="round"
           />
-          <circle
-            cx="50"
-            cy="50"
-            r="45"
-            fill="none"
-            stroke={getDaysColor(sobrietyTime.days)}
-            strokeWidth="8"
-            strokeDasharray={`${2 * Math.PI * 45}`}
-            strokeDashoffset={`${2 * Math.PI * 45 * (1 - daysProgress)}`}
-            strokeLinecap="round"
-            className="transition-all duration-1000 ease-out"
-          />
+          
+          {/* Completed cycles (fully filled circles) */}
+          {Array.from({ length: Math.min(daysData.completedCycles, daysData.colors.length) }).map((_, index) => (
+            <circle
+              key={`completed-${index}`}
+              cx="50"
+              cy="50"
+              r="45"
+              fill="none"
+              stroke={daysData.colors[index % daysData.colors.length]}
+              strokeWidth="8"
+              strokeDasharray={`${2 * Math.PI * 45}`}
+              strokeDashoffset="0"
+              strokeLinecap="round"
+            />
+          ))}
+          
+          {/* Current progress circle */}
+          {daysData.currentProgress > 0 && (
+            <circle
+              cx="50"
+              cy="50"
+              r="45"
+              fill="none"
+              stroke={daysData.colors[daysData.completedCycles % daysData.colors.length]}
+              strokeWidth="8"
+              strokeDasharray={`${2 * Math.PI * 45}`}
+              strokeDashoffset={`${2 * Math.PI * 45 * (1 - daysData.currentProgress)}`}
+              strokeLinecap="round"
+              className="transition-all duration-1000 ease-out"
+            />
+          )}
         </svg>
 
         {/* Hours Circle */}
@@ -124,9 +141,9 @@ export default function Summary() {
             cy="50"
             r="35"
             fill="none"
-            stroke="#6B7280"
+            stroke="#E5E7EB"
             strokeWidth="6"
-            className="opacity-30"
+            className="opacity-50"
             strokeLinecap="round"
           />
           <circle
@@ -134,7 +151,7 @@ export default function Summary() {
             cy="50"
             r="35"
             fill="none"
-            stroke="#8B5CF6"
+            stroke="#90AFC5"
             strokeWidth="6"
             strokeDasharray={`${2 * Math.PI * 35}`}
             strokeDashoffset={`${2 * Math.PI * 35 * (1 - hoursProgress)}`}
@@ -150,9 +167,9 @@ export default function Summary() {
             cy="50"
             r="25"
             fill="none"
-            stroke="#6B7280"
+            stroke="#E5E7EB"
             strokeWidth="4"
-            className="opacity-30"
+            className="opacity-50"
             strokeLinecap="round"
           />
           <circle
@@ -160,7 +177,7 @@ export default function Summary() {
             cy="50"
             r="25"
             fill="none"
-            stroke="#10B981"
+            stroke="#B8C5DB"
             strokeWidth="4"
             strokeDasharray={`${2 * Math.PI * 25}`}
             strokeDashoffset={`${2 * Math.PI * 25 * (1 - minutesProgress)}`}
@@ -176,9 +193,9 @@ export default function Summary() {
             cy="50"
             r="15"
             fill="none"
-            stroke="#6B7280"
+            stroke="#E5E7EB"
             strokeWidth="3"
-            className="opacity-30"
+            className="opacity-50"
             strokeLinecap="round"
           />
           <circle
@@ -186,7 +203,7 @@ export default function Summary() {
             cy="50"
             r="15"
             fill="none"
-            stroke="#EF4444"
+            stroke="#BBD2C5"
             strokeWidth="3"
             strokeDasharray={`${2 * Math.PI * 15}`}
             strokeDashoffset={`${2 * Math.PI * 15 * (1-secondsProgress)}`}
@@ -208,27 +225,27 @@ export default function Summary() {
 
       {/* Time display */}
       <div className="grid grid-cols-4 gap-4 text-center">
-        <div className="bg-blue-50 p-3 rounded-lg">
-          <div className="text-2xl font-bold text-blue-600">{sobrietyTime.days}</div>
-          <div className="text-sm text-blue-500">
+        <div className="p-3 rounded-lg" style={{ backgroundColor: '#A7C4A0', color: '#FFFFFF' }}>
+          <div className="text-2xl font-bold">{sobrietyTime.days}</div>
+          <div className="text-sm text-white">
             {sobrietyTime.days === 1 ? 'day' : 'days'}
           </div>
         </div>
-        <div className="bg-violet-50 p-3 rounded-lg">
-          <div className="text-2xl font-bold text-violet-600">{Math.floor(sobrietyTime.hours)}</div>
-          <div className="text-sm text-violet-500">
+        <div className="p-3 rounded-lg" style={{ backgroundColor: '#90AFC5', color: '#FFFFFF' }}>
+          <div className="text-2xl font-bold">{Math.floor(sobrietyTime.hours)}</div>
+          <div className="text-sm text-white">
             {Math.floor(sobrietyTime.hours) === 1 ? 'hour' : 'hours'}
           </div>
         </div>
-        <div className="bg-emerald-50 p-3 rounded-lg">
-          <div className="text-2xl font-bold text-emerald-600">{Math.floor(sobrietyTime.minutes)}</div>
-          <div className="text-sm text-emerald-500">
+        <div className="p-3 rounded-lg" style={{ backgroundColor: '#B8C5DB', color: '#FFFFFF' }}>
+          <div className="text-2xl font-bold">{Math.floor(sobrietyTime.minutes)}</div>
+          <div className="text-sm text-white">
             {Math.floor(sobrietyTime.minutes) === 1 ? 'minute' : 'minutes'}
           </div>
         </div>
-        <div className="bg-red-50 p-3 rounded-lg">
-          <div className="text-2xl font-bold text-red-600">{Math.floor(sobrietyTime.seconds)}</div>
-          <div className="text-sm text-red-500">
+        <div className="p-3 rounded-lg" style={{ backgroundColor: '#BBD2C5', color: '#FFFFFF' }}>
+          <div className="text-2xl font-bold">{Math.floor(sobrietyTime.seconds)}</div>
+          <div className="text-sm text-white">
             {Math.floor(sobrietyTime.seconds) === 1 ? 'second' : 'seconds'}
           </div>
         </div>
@@ -236,3 +253,4 @@ export default function Summary() {
     </div>
   );
 }
+

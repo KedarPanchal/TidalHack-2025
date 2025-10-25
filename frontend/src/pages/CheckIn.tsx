@@ -1,8 +1,18 @@
+import ChatInterface from '../components/ChatInterface';
+
 export default function CheckIn() {
   return (
-    <div className="flex flex-col items-center justify-center h-full p-6">
-      <h1 className="text-3xl font-bold mb-4">Check-In</h1>
-      <p className="text-muted-foreground">Daily check-ins will appear here</p>
+    <div className="h-full">
+      <div className="p-4 border-b border-border">
+        <h1 className="text-2xl font-bold">Daily Check-In</h1>
+        <p className="text-muted-foreground">Share how you're feeling and get personalized insights</p>
+      </div>
+      <div className="h-[calc(100vh-200px)]">
+        <ChatInterface 
+          persona="checkin"
+          placeholder="How are you feeling today? What's on your mind?"
+        />
+      </div>
     </div>
   );
 }

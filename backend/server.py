@@ -44,19 +44,17 @@ def root():
     return ModelResponse(response="Server is running.")
 
 @app.post("/api/v1/chat/{persona}")
-def chat(persona: str, prompt: PromptInput):
-    llm = get_llm_manager(persona)
+def chat(persona: str, prompt: PromptInput, llm: LLMManager = Depends(get_llm_manager)):
     # Ensure the correct prompt is loaded (in case it was changed)
     llm.switch_prompt(f"{persona}.txt")
     response = llm.chat(prompt.prompt)
     return ModelResponse(response=response)
 
 @app.post("/api/v1/rag/{persona}")
-def chat_rag(persona: str, rag_input: RAGInput):
-    llm = get_llm_manager(persona)
+def chat_rag(persona: str, rag_input: RAGInput, llm: LLMManager = Depends(get_llm_manager)):
     # Ensure the correct prompt is loaded (in case it was changed)
     llm.switch_prompt(f"{persona}.txt")
-    response = llm.act_rag(rag_input.prompt, rag_input.context)
+    response = llm.chat_rag(rag_input.prompt, rag_input.context)
     return ModelResponse(response=response)
 
 if __name__ == "__main__":

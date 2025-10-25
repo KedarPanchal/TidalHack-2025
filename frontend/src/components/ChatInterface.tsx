@@ -48,6 +48,7 @@ export default function ChatInterface({
   const [searchQuery, setSearchQuery] = useState('');
   const [showSearch, setShowSearch] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [isUserScrolling, setIsUserScrolling] = useState(false);
   
   // Use appropriate hook based on RAG requirement
@@ -140,6 +141,15 @@ export default function ChatInterface({
     }
   };
 
+  // Auto-resize textarea
+  useEffect(() => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = 'auto';
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    }
+  }, [inputValue]);
+
   const clearMessages = () => {
     setMessages([]);
     try {
@@ -153,12 +163,12 @@ export default function ChatInterface({
   return (
     <div className={`flex flex-col h-full bg-background ${className}`}>
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-border">
+      <div className="flex items-center justify-between p-3 sm:p-4 border-b border-border">
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-          <h3 className="font-semibold text-foreground capitalize">{persona} Chat</h3>
+          <h3 className="font-semibold text-foreground capitalize text-sm sm:text-base">{persona} Chat</h3>
           {messages.length > 0 && (
-            <span className="text-xs text-muted-foreground">
+            <span className="text-xs text-muted-foreground hidden sm:inline">
               ({messages.length} messages)
             </span>
           )}
@@ -173,7 +183,7 @@ export default function ChatInterface({
           </button>
           <button
             onClick={clearMessages}
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            className="text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors"
             title="Clear chat history"
           >
             Clear
@@ -308,21 +318,23 @@ export default function ChatInterface({
       )}
 
       {/* Input Area */}
-      <div className="border-t border-border p-4">
+      <div className="border-t border-border p-3 sm:p-4">
         <div className="flex gap-2">
           <textarea
+            ref={textareaRef}
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder={placeholder}
             disabled={loading}
-            className="flex-1 min-h-[40px] max-h-32 px-3 py-2 border border-input rounded-md bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent resize-none disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-1 min-h-[52px] max-h-32 px-3 py-2.5 sm:py-2 border border-input rounded-md bg-background text-foreground placeholder:text-muted-foreground placeholder:opacity-70 focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent resize-none disabled:opacity-50 disabled:cursor-not-allowed leading-relaxed text-sm sm:text-base overflow-y-auto"
             rows={1}
+            style={{ lineHeight: '1.5' }}
           />
           <button
             onClick={handleSendMessage}
             disabled={!inputValue.trim() || loading}
-            className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="px-3 sm:px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex-shrink-0"
           >
             {loading ? (
               <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />

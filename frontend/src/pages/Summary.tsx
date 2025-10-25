@@ -144,10 +144,10 @@ export default function Summary({ onNavigateToCheckIn }: SummaryProps) {
   const hoursProgress = getCircleProgress(sobrietyTime.hours, 24);
 
   return (
-    <div className="flex flex-col items-center justify-center h-full p-6">
-      <h1 className="text-3xl font-bold mb-8 text-foreground">You've been sober for...</h1>
+    <div className="flex flex-col items-center justify-center h-full p-4 sm:p-6">
+      <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 sm:mb-6 md:mb-8 text-foreground text-center px-2">You've been sober for...</h1>
       
-      <div className="relative w-80 h-80 mb-8">
+      <div className="relative w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 mb-4 sm:mb-6 md:mb-8">
         {/* Days Circle (outermost) - with multiple filled layers */}
         <svg className="absolute inset-0 w-full h-full transform -rotate-90" viewBox="0 0 100 100">
           {/* Background circle */}
@@ -275,38 +275,38 @@ export default function Summary({ onNavigateToCheckIn }: SummaryProps) {
 
         {/* Center content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <div className="text-4xl font-bold text-foreground">
+          <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground">
             {sobrietyTime.days}
           </div>
-          <div className="text-sm text-muted-foreground">
+          <div className="text-xs sm:text-sm text-muted-foreground">
             {sobrietyTime.days === 1 ? 'day' : 'days'}
           </div>
         </div>
       </div>
 
       {/* Time display */}
-      <div className="grid grid-cols-4 gap-4 text-center">
-        <div className="p-3 rounded-lg" style={{ backgroundColor: '#A7C4A0', color: '#FFFFFF' }}>
-          <div className="text-2xl font-bold">{sobrietyTime.days}</div>
-          <div className="text-sm text-white">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 md:gap-4 text-center w-full max-w-md">
+        <div className="p-2 sm:p-3 rounded-lg" style={{ backgroundColor: '#A7C4A0', color: '#FFFFFF' }}>
+          <div className="text-lg sm:text-xl md:text-2xl font-bold">{sobrietyTime.days}</div>
+          <div className="text-xs sm:text-sm text-white">
             {sobrietyTime.days === 1 ? 'day' : 'days'}
           </div>
         </div>
-        <div className="p-3 rounded-lg" style={{ backgroundColor: '#90AFC5', color: '#FFFFFF' }}>
-          <div className="text-2xl font-bold">{Math.floor(sobrietyTime.hours)}</div>
-          <div className="text-sm text-white">
+        <div className="p-2 sm:p-3 rounded-lg" style={{ backgroundColor: '#90AFC5', color: '#FFFFFF' }}>
+          <div className="text-lg sm:text-xl md:text-2xl font-bold">{Math.floor(sobrietyTime.hours)}</div>
+          <div className="text-xs sm:text-sm text-white">
             {Math.floor(sobrietyTime.hours) === 1 ? 'hour' : 'hours'}
           </div>
         </div>
-        <div className="p-3 rounded-lg" style={{ backgroundColor: '#B8C5DB', color: '#FFFFFF' }}>
-          <div className="text-2xl font-bold">{Math.floor(sobrietyTime.minutes)}</div>
-          <div className="text-sm text-white">
+        <div className="p-2 sm:p-3 rounded-lg" style={{ backgroundColor: '#B8C5DB', color: '#FFFFFF' }}>
+          <div className="text-lg sm:text-xl md:text-2xl font-bold">{Math.floor(sobrietyTime.minutes)}</div>
+          <div className="text-xs sm:text-sm text-white">
             {Math.floor(sobrietyTime.minutes) === 1 ? 'minute' : 'minutes'}
           </div>
         </div>
-        <div className="p-3 rounded-lg" style={{ backgroundColor: '#BBD2C5', color: '#FFFFFF' }}>
-          <div className="text-2xl font-bold">{Math.floor(sobrietyTime.seconds)}</div>
-          <div className="text-sm text-white">
+        <div className="p-2 sm:p-3 rounded-lg" style={{ backgroundColor: '#BBD2C5', color: '#FFFFFF' }}>
+          <div className="text-lg sm:text-xl md:text-2xl font-bold">{Math.floor(sobrietyTime.seconds)}</div>
+          <div className="text-xs sm:text-sm text-white">
             {Math.floor(sobrietyTime.seconds) === 1 ? 'second' : 'seconds'}
           </div>
         </div>
@@ -314,10 +314,10 @@ export default function Summary({ onNavigateToCheckIn }: SummaryProps) {
 
       {/* Check-in reminder */}
       {needsCheckIn ? (
-        <div className="mt-8 w-full max-w-md mx-auto">
+        <div className="mt-4 sm:mt-6 md:mt-8 w-full max-w-md mx-auto px-2">
           <button
             onClick={onNavigateToCheckIn}
-            className="w-full p-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200"
+            className="w-full p-3 sm:p-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200"
             style={{ 
               backgroundColor: '#90AFC5', 
               color: '#FFFFFF',
@@ -331,15 +331,15 @@ export default function Summary({ onNavigateToCheckIn }: SummaryProps) {
             }}
           >
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-3 h-3 bg-white rounded-full animate-pulse"></div>
+              <div className="flex items-center gap-2 sm:gap-3">
+                <div className="w-2 h-2 sm:w-3 sm:h-3 bg-white rounded-full animate-pulse flex-shrink-0"></div>
                 <div className="text-left">
-                  <div className="font-semibold text-lg">Time for your check-in!</div>
-                  <div className="text-sm opacity-90">Share how you're feeling</div>
+                  <div className="font-semibold text-sm sm:text-base md:text-lg">Time for your check-in!</div>
+                  <div className="text-xs sm:text-sm opacity-90">Share how you're feeling</div>
                 </div>
               </div>
               <svg 
-                className="w-6 h-6" 
+                className="w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0" 
                 fill="none" 
                 stroke="currentColor" 
                 viewBox="0 0 24 24"
@@ -355,17 +355,17 @@ export default function Summary({ onNavigateToCheckIn }: SummaryProps) {
           </button>
         </div>
       ) : (
-        <div className="mt-8 w-full max-w-md mx-auto">
+        <div className="mt-4 sm:mt-6 md:mt-8 w-full max-w-md mx-auto px-2">
           <div
-            className="w-full p-4 rounded-lg shadow-md"
+            className="w-full p-3 sm:p-4 rounded-lg shadow-md"
             style={{ 
               backgroundColor: '#A7C4A0', 
               color: '#FFFFFF'
             }}
           >
-            <div className="flex items-center justify-center gap-3">
+            <div className="flex items-center justify-center gap-2 sm:gap-3">
               <svg 
-                className="w-5 h-5" 
+                className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" 
                 fill="none" 
                 stroke="currentColor" 
                 viewBox="0 0 24 24"
@@ -378,8 +378,8 @@ export default function Summary({ onNavigateToCheckIn }: SummaryProps) {
                 />
               </svg>
               <div className="text-center">
-                <div className="font-semibold text-lg">You've already checked in!</div>
-                <div className="text-sm opacity-90">Be sure to come back at {nextResetTime}</div>
+                <div className="font-semibold text-sm sm:text-base md:text-lg">You've already checked in!</div>
+                <div className="text-xs sm:text-sm opacity-90">Be sure to come back at {nextResetTime}</div>
               </div>
             </div>
           </div>

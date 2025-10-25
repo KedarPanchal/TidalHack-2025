@@ -71,7 +71,7 @@ function App() {
 
   return (
     <div className="flex flex-col h-screen bg-background">
-      <main className="flex-1 overflow-y-auto pb-16">
+      <main className="flex-1 overflow-y-auto pb-14 sm:pb-16">
         {renderPage()}
       </main>
       <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />

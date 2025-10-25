@@ -12,20 +12,20 @@ interface SettingsProps {
 
 export default function Settings({ theme, setTheme, fontSize, setFontSize }: SettingsProps) {
   return (
-    <div className="flex flex-col items-center justify-start h-full p-6 space-y-8">
-      <h1 className="text-3xl font-bold mb-4">Settings</h1>
+    <div className="flex flex-col items-center justify-start h-full p-4 sm:p-6 space-y-4 sm:space-y-6 md:space-y-8">
+      <h1 className="text-2xl sm:text-3xl font-bold mb-2 sm:mb-4">Settings</h1>
 
       {/* Appearance Section */}
-      <div className="w-full max-w-md p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-md space-y-6">
-        <h2 className="text-xl font-semibold">Appearance</h2>
+      <div className="w-full max-w-md p-4 sm:p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-md space-y-4 sm:space-y-6">
+        <h2 className="text-lg sm:text-xl font-semibold">Appearance</h2>
 
         {/* Theme toggle */}
-        <div className="flex items-center justify-between">
-          <span>Theme</span>
+        <div className="flex items-center justify-between gap-2">
+          <span className="text-sm sm:text-base">Theme</span>
           <select
             value={theme}
             onChange={(e) => setTheme(e.target.value as Theme)}
-            className="rounded-lg border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-3 py-2"
+            className="rounded-lg border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-2 sm:px-3 py-1.5 sm:py-2 text-sm sm:text-base"
           >
             <option value="light">Light</option>
             <option value="dark">Dark</option>
@@ -33,12 +33,12 @@ export default function Settings({ theme, setTheme, fontSize, setFontSize }: Set
         </div>
 
         {/* Font size toggle */}
-        <div className="flex items-center justify-between">
-          <span>Font Size</span>
+        <div className="flex items-center justify-between gap-2">
+          <span className="text-sm sm:text-base">Font Size</span>
           <select
             value={fontSize}
             onChange={(e) => setFontSize(e.target.value as FontSize)}
-            className="rounded-lg border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-3 py-2"
+            className="rounded-lg border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-2 sm:px-3 py-1.5 sm:py-2 text-sm sm:text-base"
           >
             <option value="small">Small</option>
             <option value="medium">Medium</option>

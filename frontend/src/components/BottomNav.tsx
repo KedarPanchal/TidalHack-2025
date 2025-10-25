@@ -15,8 +15,8 @@ export default function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-background border-t border-border">
-      <div className="flex items-center justify-around h-16 px-4">
+    <nav className="fixed bottom-0 left-0 right-0 bg-background border-t border-border z-50">
+      <div className="flex items-center justify-around h-14 sm:h-16 px-2 sm:px-4">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -32,8 +32,8 @@ export default function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
                   : "text-muted-foreground hover:text-foreground"
               )}
             >
-              <Icon className="h-6 w-6 mb-1" />
-              <span className="text-xs font-medium">{tab.label}</span>
+              <Icon className="h-5 w-5 sm:h-6 sm:w-6 mb-0.5 sm:mb-1" />
+              <span className="text-[10px] sm:text-xs font-medium leading-tight">{tab.label}</span>
             </button>
           );
         })}

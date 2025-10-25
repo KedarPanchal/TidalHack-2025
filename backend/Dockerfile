@@ -2,7 +2,8 @@ FROM python:3.14-slim-bookworm
 
 WORKDIR /app
 
+EXPOSE 8000
 COPY . .
 RUN pip install --no-cache-dir -r requirements.txt
 
-CMD ["python", "main.py"]
+CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8000"]

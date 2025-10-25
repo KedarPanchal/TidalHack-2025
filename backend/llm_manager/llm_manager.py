@@ -19,6 +19,10 @@ class LLMManager:
             self.history_file = os.path.join(base_dir, "history.json")
         else:
             self.history_file = os.path.join(base_dir, history_file)
+
+        if not os.path.exists(self.history_file):
+            with open(self.history_file, "w", encoding="utf-8") as f:
+                json.dump({}, f)
             
         api_key = os.getenv("GEMINI_API_KEY")
         if not api_key:
@@ -29,7 +33,7 @@ class LLMManager:
             google_api_key=api_key
         )
 
-        self.system_prompt = self.switch_prompt("urges.txt")
+        self.switch_prompt("urges.txt")
 
         self.prompt = ChatPromptTemplate.from_messages([
             ("system", self.system_prompt),

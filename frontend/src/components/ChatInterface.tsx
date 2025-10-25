@@ -166,7 +166,7 @@ export default function ChatInterface({
       <div className="flex items-center justify-between p-3 sm:p-4 border-b border-border">
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-          <h3 className="font-semibold text-foreground capitalize text-sm sm:text-base">{persona} Chat</h3>
+          <h3 className="font-semibold text-foreground capitalize text-sm sm:text-base">Sobriety Assistant</h3>
           {messages.length > 0 && (
             <span className="text-xs text-muted-foreground hidden sm:inline">
               ({messages.length} messages)

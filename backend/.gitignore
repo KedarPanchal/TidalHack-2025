@@ -3,3 +3,12 @@
 
 # Environment
 **/.env
+
+# Python Development
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+**/.Python
+**/.venv/
+**/venv/

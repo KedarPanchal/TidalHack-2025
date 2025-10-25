@@ -1,9 +1,16 @@
 import { useState } from 'react';
 
-export default function Settings() {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
-  const [fontSize, setFontSize] = useState<'small' | 'medium' | 'large'>('medium');
+type Theme = 'light' | 'dark'
+type FontSize = 'small' | 'medium' | 'large'
 
+interface SettingsProps {
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
+  fontSize: FontSize;
+  setFontSize: (fontSize: FontSize) => void;
+}
+
+export default function Settings({ theme, setTheme, fontSize, setFontSize }: SettingsProps) {
   return (
     <div className="flex flex-col items-center justify-start h-full p-6 space-y-8">
       <h1 className="text-3xl font-bold mb-4">Settings</h1>
@@ -17,8 +24,8 @@ export default function Settings() {
           <span>Theme</span>
           <select
             value={theme}
-            onChange={(e) => setTheme(e.target.value as 'light' | 'dark')}
-            className="rounded-lg border-gray-300 px-3 py-2"
+            onChange={(e) => setTheme(e.target.value as Theme)}
+            className="rounded-lg border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-3 py-2"
           >
             <option value="light">Light</option>
             <option value="dark">Dark</option>
@@ -30,8 +37,8 @@ export default function Settings() {
           <span>Font Size</span>
           <select
             value={fontSize}
-            onChange={(e) => setFontSize(e.target.value as 'small' | 'medium' | 'large')}
-            className="rounded-lg border-gray-300 px-3 py-2"
+            onChange={(e) => setFontSize(e.target.value as FontSize)}
+            className="rounded-lg border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-3 py-2"
           >
             <option value="small">Small</option>
             <option value="medium">Medium</option>

@@ -145,7 +145,7 @@ export default function Summary({ onNavigateToCheckIn }: SummaryProps) {
 
   return (
     <div className="flex flex-col items-center justify-center h-full p-6">
-      <h1 className="text-3xl font-bold mb-8">You've been sober for...</h1>
+      <h1 className="text-3xl font-bold mb-8 text-foreground">You've been sober for...</h1>
       
       <div className="relative w-80 h-80 mb-8">
         {/* Days Circle (outermost) - with multiple filled layers */}
@@ -158,7 +158,7 @@ export default function Summary({ onNavigateToCheckIn }: SummaryProps) {
             fill="none"
             stroke="#E5E7EB"
             strokeWidth="8"
-            className="opacity-50"
+            className="opacity-50 dark:stroke-gray-600"
             strokeLinecap="round"
           />
           
@@ -204,7 +204,7 @@ export default function Summary({ onNavigateToCheckIn }: SummaryProps) {
             fill="none"
             stroke="#E5E7EB"
             strokeWidth="6"
-            className="opacity-50"
+            className="opacity-50 dark:stroke-gray-600"
             strokeLinecap="round"
           />
           <circle
@@ -230,7 +230,7 @@ export default function Summary({ onNavigateToCheckIn }: SummaryProps) {
             fill="none"
             stroke="#E5E7EB"
             strokeWidth="4"
-            className="opacity-50"
+            className="opacity-50 dark:stroke-gray-600"
             strokeLinecap="round"
           />
           <circle
@@ -256,7 +256,7 @@ export default function Summary({ onNavigateToCheckIn }: SummaryProps) {
             fill="none"
             stroke="#E5E7EB"
             strokeWidth="3"
-            className="opacity-50"
+            className="opacity-50 dark:stroke-gray-600"
             strokeLinecap="round"
           />
           <circle
@@ -275,10 +275,10 @@ export default function Summary({ onNavigateToCheckIn }: SummaryProps) {
 
         {/* Center content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <div className="text-4xl font-bold text-gray-800">
+          <div className="text-4xl font-bold text-foreground">
             {sobrietyTime.days}
           </div>
-          <div className="text-sm text-gray-600">
+          <div className="text-sm text-muted-foreground">
             {sobrietyTime.days === 1 ? 'day' : 'days'}
           </div>
         </div>

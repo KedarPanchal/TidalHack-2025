@@ -12,4 +12,4 @@ make clean:
 make stop:
 	docker stop $(shell docker ps -q --filter ancestor=tidalhack-backend)
 
-make all: clean build run
+make all: stop clean build run

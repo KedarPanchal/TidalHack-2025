@@ -1,6 +1,8 @@
 import { useCallback } from "react";
 import { usePOST } from "./useapi";
 
+export type ChatPersona = "urges" | "checkin";
+
 /**
  * Hook for sending chat messages to the API.
  * 

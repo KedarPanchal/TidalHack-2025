@@ -22,8 +22,8 @@ import { usePOST } from "./useapi";
 export function useChatRequest() {
     const { sendRequest, loading, error } = usePOST();
 
-    const chatRequest = useCallback(async (message: string) => {
-        return sendRequest("api/v1/chat", { prompt: message });
+    const chatRequest = useCallback(async (persona: string, message: string) => {
+        return sendRequest(`api/v1/chat/${persona}`, { prompt: message });
     }, [sendRequest]);
 
     return { sendRequest: chatRequest, loading, error };
@@ -50,8 +50,8 @@ export function useChatRequest() {
 export function useRAGRequest() {
     const { sendRequest, loading, error } = usePOST();
 
-    const ragRequest = useCallback(async (message: string, context: string) => {
-        return sendRequest("api/v1/chat/rag", { prompt: message, context: context });
+    const ragRequest = useCallback(async (persona: string, message: string, context: string) => {
+        return sendRequest(`api/v1/rag/${persona}`, { prompt: message, context: context });
     }, [sendRequest]);
 
     return { sendRequest: ragRequest, loading, error };

@@ -20,3 +20,6 @@ dist-ssr
 
 # Mac Development
 **/.DS_Store
+
+# Vite build cache
+.vite/

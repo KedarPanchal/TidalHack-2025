@@ -6,6 +6,10 @@ interface UseAPIReturn {
     error: Error | null;
 }
 
+interface usePOSTReturn extends UseAPIReturn {
+    sendRequest: (endpoint: string, body: any, options?: RequestInit) => Promise<any>;
+}
+
 const apiBaseURL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
 export function useAPI(): UseAPIReturn {
@@ -25,16 +29,17 @@ export function useAPI(): UseAPIReturn {
     return { sendRequest, loading, error };
 }
 
-export function usePOST(): UseAPIReturn {
+export function usePOST(): usePOSTReturn {
     const { sendRequest, loading, error } = useAPI();
 
-    const postRequest = useCallback(async (endpoint: string, body: any) => {
+    const postRequest = useCallback(async (endpoint: string, body: any, options: RequestInit = {}) => {
         return sendRequest(endpoint, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(body),
+            ...options,
         });
     }, [sendRequest]);
 

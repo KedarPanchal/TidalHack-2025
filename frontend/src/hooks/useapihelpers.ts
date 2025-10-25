@@ -15,8 +15,8 @@ export type ChatPersona = "urges" | "checkin";
  * ```tsx
  * const { sendRequest, loading, error } = useChatRequest();
  * 
- * const handleSendMessage = async (message: string) => {
- *   const response = await sendRequest(message);
+ * const handleSendMessage = async (persona: ChatPersona, message: string) => {
+ *   const response = await sendRequest(persona, message);
  *   console.log(response);
  * };
  * ```
@@ -43,8 +43,8 @@ export function useChatRequest() {
  * ```tsx
  * const { sendRequest, loading, error } = useRAGRequest();
  * 
- * const handleRAGQuery = async (query: string, context: string) => {
- *   const response = await sendRequest(query, context);
+ * const handleRAGQuery = async (persona: ChatPersona, query: string, context: string) => {
+ *   const response = await sendRequest(persona, query, context);
  *   console.log(response);
  * };
  * ```

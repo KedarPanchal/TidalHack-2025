@@ -1,4 +1,5 @@
 import ChatInterface from '../components/ChatInterface';
+import { handleRelapseDetection } from '../lib/sobrietyUtils';
 
 export default function UrgeManager() {
   return (
@@ -11,6 +12,7 @@ export default function UrgeManager() {
         <ChatInterface 
           persona="urges"
           placeholder="What are you experiencing? I'm here to help."
+          onRelapse={handleRelapseDetection}
         />
       </div>
     </div>

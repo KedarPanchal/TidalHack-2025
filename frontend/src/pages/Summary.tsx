@@ -30,6 +30,21 @@ export default function Summary({ onNavigateToCheckIn }: SummaryProps) {
     }
   }, []);
 
+  // Listen for sobriety timer reset events
+  useEffect(() => {
+    const handleTimerReset = (event: CustomEvent) => {
+      const newStartTime = event.detail.newStartTime;
+      setStartTime(newStartTime);
+      console.log('Summary page: Sobriety timer reset detected');
+    };
+
+    window.addEventListener('sobrietyTimerReset', handleTimerReset as EventListener);
+    
+    return () => {
+      window.removeEventListener('sobrietyTimerReset', handleTimerReset as EventListener);
+    };
+  }, []);
+
   // Check if user needs to check in (resets at 6AM and 6PM)
   useEffect(() => {
     const checkCheckInStatus = () => {

@@ -14,6 +14,7 @@ interface ChatInterfaceProps {
   context?: string;
   placeholder?: string;
   className?: string;
+  onRelapse?: () => void;
 }
 
 export default function ChatInterface({ 
@@ -21,7 +22,8 @@ export default function ChatInterface({
   enableRAG = false, 
   context = '', 
   placeholder = "Type your message...",
-  className = ""
+  className = "",
+  onRelapse
 }: ChatInterfaceProps) {
   // Generate unique storage key for this persona
   const storageKey = `chat-history-${persona}`;
@@ -113,6 +115,11 @@ export default function ChatInterface({
         response = await ragSendRequest(persona, inputValue.trim(), context);
       } else {
         response = await chatSendRequest(persona, inputValue.trim());
+      }
+
+      // Check for relapse detection
+      if (response.relapsed === true && onRelapse) {
+        onRelapse();
       }
 
       const botMessage: Message = {

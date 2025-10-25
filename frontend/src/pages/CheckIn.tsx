@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import ChatInterface from '../components/ChatInterface';
+import { handleRelapseDetection } from '../lib/sobrietyUtils';
 
 export default function CheckIn() {
   // Mark check-in as completed when user sends a message
@@ -52,6 +53,7 @@ export default function CheckIn() {
         <ChatInterface 
           persona="checkin"
           placeholder="How are you feeling today?"
+          onRelapse={handleRelapseDetection}
         />
       </div>
     </div>

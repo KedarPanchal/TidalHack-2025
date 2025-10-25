@@ -12,7 +12,7 @@ function App() {
   const renderPage = () => {
     switch (activeTab) {
       case 'summary':
-        return <Summary />
+        return <Summary onNavigateToCheckIn={() => setActiveTab('checkin')} />
       case 'checkin':
         return <CheckIn />
       case 'urge':
@@ -20,7 +20,7 @@ function App() {
       case 'settings':
         return <Settings />
       default:
-        return <Summary />
+        return <Summary onNavigateToCheckIn={() => setActiveTab('checkin')} />
     }
   }
 

@@ -7,9 +7,15 @@ interface SobrietyTime {
   seconds: number;
 }
 
-export default function Summary() {
+interface SummaryProps {
+  onNavigateToCheckIn: () => void;
+}
+
+export default function Summary({ onNavigateToCheckIn }: SummaryProps) {
   const [sobrietyTime, setSobrietyTime] = useState<SobrietyTime>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [startTime, setStartTime] = useState<number | null>(null);
+  const [needsCheckIn, setNeedsCheckIn] = useState(false);
+  const [nextResetTime, setNextResetTime] = useState<string>('');
 
   // Load start time from localStorage on component mount
   useEffect(() => {
@@ -22,6 +28,61 @@ export default function Summary() {
       setStartTime(now);
       localStorage.setItem('sobrietyStartTime', now.toString());
     }
+  }, []);
+
+  // Check if user needs to check in (resets at 6AM and 6PM)
+  useEffect(() => {
+    const checkCheckInStatus = () => {
+      const now = new Date();
+      const currentHour = now.getHours();
+      
+      // Determine the current check-in window
+      let currentWindow: 'morning' | 'evening';
+      if (currentHour < 6) {
+        currentWindow = 'evening'; // Yesterday evening (waiting for 6AM)
+      } else if (currentHour < 18) {
+        currentWindow = 'morning'; // Today morning (waiting for 6PM)
+      } else {
+        currentWindow = 'evening'; // Today evening (waiting for 6AM next day)
+      }
+      
+      // Get the last check-in timestamp
+      const lastCheckIn = localStorage.getItem('lastCheckIn');
+      const lastCheckInWindowSaved = localStorage.getItem('lastCheckInWindow') as 'morning' | 'evening' | null;
+      
+      // Calculate next reset time
+      const nextReset = new Date(now);
+      if (currentHour < 6) {
+        // Next reset is at 6AM today
+        nextReset.setHours(6, 0, 0, 0);
+      } else if (currentHour < 18) {
+        // Next reset is at 6PM today
+        nextReset.setHours(18, 0, 0, 0);
+      } else {
+        // Next reset is at 6AM tomorrow
+        nextReset.setDate(nextReset.getDate() + 1);
+        nextReset.setHours(6, 0, 0, 0);
+      }
+      
+      setNextResetTime(nextReset.toLocaleTimeString('en-US', { 
+        hour: 'numeric', 
+        minute: '2-digit',
+        hour12: true 
+      }));
+      
+      // If no check-in recorded or window changed, user needs to check in
+      if (!lastCheckIn || lastCheckInWindowSaved !== currentWindow) {
+        setNeedsCheckIn(true);
+      } else {
+        setNeedsCheckIn(false);
+      }
+    };
+    
+    checkCheckInStatus();
+    // Check every minute to update status at 6AM and 6PM
+    const interval = setInterval(checkCheckInStatus, 60000);
+    
+    return () => clearInterval(interval);
   }, []);
 
   // Update timer with different frequencies for smooth seconds vs pulsed others
@@ -250,6 +311,80 @@ export default function Summary() {
           </div>
         </div>
       </div>
+
+      {/* Check-in reminder */}
+      {needsCheckIn ? (
+        <div className="mt-8 w-full max-w-md mx-auto">
+          <button
+            onClick={onNavigateToCheckIn}
+            className="w-full p-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200"
+            style={{ 
+              backgroundColor: '#90AFC5', 
+              color: '#FFFFFF',
+              border: '2px solid transparent'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#7A9FB5';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#90AFC5';
+            }}
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-3 h-3 bg-white rounded-full animate-pulse"></div>
+                <div className="text-left">
+                  <div className="font-semibold text-lg">Time for your check-in!</div>
+                  <div className="text-sm opacity-90">Share how you're feeling</div>
+                </div>
+              </div>
+              <svg 
+                className="w-6 h-6" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  strokeWidth={2} 
+                  d="M9 5l7 7-7 7" 
+                />
+              </svg>
+            </div>
+          </button>
+        </div>
+      ) : (
+        <div className="mt-8 w-full max-w-md mx-auto">
+          <div
+            className="w-full p-4 rounded-lg shadow-md"
+            style={{ 
+              backgroundColor: '#A7C4A0', 
+              color: '#FFFFFF'
+            }}
+          >
+            <div className="flex items-center justify-center gap-3">
+              <svg 
+                className="w-5 h-5" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  strokeWidth={2} 
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" 
+                />
+              </svg>
+              <div className="text-center">
+                <div className="font-semibold text-lg">You've already checked in!</div>
+                <div className="text-sm opacity-90">Be sure to come back at {nextResetTime}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

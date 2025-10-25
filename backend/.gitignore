@@ -12,3 +12,7 @@
 **/.Python
 **/.venv/
 **/venv/
+
+# Test files
+llm_manager/chat_terminal.py
+history.json
